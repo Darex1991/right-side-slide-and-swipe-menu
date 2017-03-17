@@ -37,7 +37,7 @@
         $.fn.slideAndSwipe = function(options) {
 
             var nav = $(this); // get the element to swipe
-            var navWidth = -nav.outerWidth();
+            var navWidth = nav.outerWidth();
             var transInitial = navWidth;
 
             // get settings
@@ -47,7 +47,7 @@
                 allowPageScroll     : 'vertical',
                 threshold           : 100,
                 excludedElements    : 'label, button, input, select, textarea, .noSwipe',
-                speed               : 250
+                speed               : 200
 
             }, options );
 
@@ -86,9 +86,9 @@
                         mDistance = distance;
                     }
                     scrollNav(mDistance, 0);
-                } else if (phase == 'cancel' && (direction == 'left') && transInitial === 0) {
+                } else if (phase == 'cancel' && (direction == 'right') && transInitial === 0) {
                     scrollNav(0, settings.speed);
-                } else if (phase == 'end' && (direction == 'left')) {
+                } else if (phase == 'end' && (direction == 'right')) {
 
                        hideNavigation();
                 } else if ((phase == 'end' || phase == 'cancel') && (direction == 'right')) {
@@ -113,10 +113,10 @@
             function scrollNav(distance, duration) {
                 nav.css('transition-duration', (duration / 1000).toFixed(1) + 's');
 
-                if(distance >= 0) {
+                if(distance <= 0) {
                     distance = 0;
                 }
-                if(distance <= navWidth) {
+                if(distance >= navWidth) {
                     distance = navWidth;
                 }
                 if(isSafari() || isChrome()) {
